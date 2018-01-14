@@ -1,5 +1,11 @@
 # Netlify Gocommerce Widget
 
+```
+Warning!! This is still Work in Progress.
+
+Not ready for general use yet.
+```
+
 A component used to add a gocommerce powered shopping cart.
 [Live demo](https://gocommerce-widget.netlify.com)
 
