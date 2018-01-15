@@ -4,62 +4,44 @@ import Modal from "./modal";
 import SiteURLForm from "./forms/siteurl";
 import Cart from "./cart";
 import Details from "./details";
-import Payment from "./payment";
 import Confirm from "./confirm";
 import Success from "./success";
 import Message from "./forms/message";
 
 const pages = {
-  cart: {
-    title: "Cart",
-    button: "Continue to Customer Details →",
-    tabs: true,
-    handler: store => {
-      if (store.itemCount == 0) {
-        return;
-      }
-
-      store.setPage("details");
-    },
-    isActive: store => true
-  },
   details: {
     title: "Customer Details",
-    button: "Continue to Payment →",
+    button: "Review Order →",
     tabs: true,
     isActive: store => true,
-    handler: store => {
-      if (store.details.validated) {
-        store.setPage("payment");
-      }
-    }
-  },
-  payment: {
-    title: "Payment Details",
-    button: "Review Your Order →",
-    tabs: true,
-    isActive: store => store.details.validated,
     handler: (store, state) => {
-      state.tokenFn().then(result => {
-        store.setPage("confirm");
-        store.setCC({ validated: true, result, provider: "stripe" });
-      });
+      if (
+        store.itemCount > 0 &&
+        store.details.validated &&
+        store.paymentMethods.complete
+      ) {
+        state.tokenFn().then(result => {
+          store.setPage("confirm");
+          store.setCC({ validated: true, result, provider: "stripe" });
+        });
+      }
     }
   },
   confirm: {
     title: "Review Order",
     button: "Finish Checkout →",
     tabs: true,
-    isActive: store => store.cc.validated,
-    handler: (store) => {
-      console.log('Checkout!');
+    isActive: store =>
+      store.itemCount > 0 && store.details.validated && store.cc.validated,
+    handler: store => {
+      console.log("Checkout!");
       store.checkout();
     }
   },
   success: {
     title: "Success",
     button: "All Done",
-    handler: (store) => {
+    handler: store => {
       store.closeModal();
     }
   }
@@ -104,7 +86,11 @@ class App extends Component {
   };
 
   handleUpdatePaymentMethod = (state, tokenFn) => {
-    this.setState({ tokenFn }, () => (this.props.store.paymentMethods.complete = state));
+    console.log("updating payment method", state);
+    this.setState(
+      { tokenFn },
+      () => (this.props.store.paymentMethods.complete = state)
+    );
   };
 
   renderBody() {
@@ -115,24 +101,28 @@ class App extends Component {
     }
 
     switch (store.modal.page) {
-      case "cart":
-        return <Cart cart={store.cart} onQuantity={this.handleQuantity} />;
       case "details":
         return (
-          <Details details={store.details} onDetails={this.handleDetails} />
-        );
-      case "payment":
-        return (
-          <Payment
+          <Details
+            details={store.details}
+            onDetails={this.handleDetails}
             methods={store.paymentMethods}
             onLoadMethods={this.handleLoadMethods}
             onUpdatePaymentMethod={this.handleUpdatePaymentMethod}
           />
         );
       case "confirm":
-        return <Confirm cart={store.cart} details={store.details} cc={store.cc} />;
+        return (
+          <Confirm cart={store.cart} details={store.details} cc={store.cc} />
+        );
       case "success":
-        return <Success details={store.details} order={store.order}/>;
+        return (
+          <Success
+            cart={store.orderedCart}
+            details={store.details}
+            order={store.order}
+          />
+        );
     }
   }
 
@@ -153,21 +143,30 @@ class App extends Component {
           onClose={this.handleClose}
           logo={store.modal.logo}
         >
-          {page.tabs && <div className="header">
-            {Object.keys(pages).filter(slug => pages[slug].tabs).map(slug => (
-              <button
-                data-slug={slug}
-                onClick={this.handleGoto}
-                disabled={!pages[slug].isActive(store)}
-                className={`btn btnHeader${
-                  slug == store.modal.page ? " active" : ""
-                }`}
-              >
-                {pages[slug].title}
-              </button>
-            ))}
-          </div>}
-          {this.renderBody()}
+          {page.tabs && (
+            <div className="header">
+              {Object.keys(pages)
+                .filter(slug => pages[slug].tabs)
+                .map(slug => (
+                  <button
+                    data-slug={slug}
+                    onClick={this.handleGoto}
+                    disabled={!pages[slug].isActive(store)}
+                    className={`btn btnHeader${
+                      slug == store.modal.page ? " active" : ""
+                    }`}
+                  >
+                    {pages[slug].title}
+                  </button>
+                ))}
+            </div>
+          )}
+          <div className={`main ${store.modal.page}`}>
+            <div className="body">{this.renderBody()}</div>
+            <div className="aside">
+              <Cart cart={store.cart} onQuantity={this.handleQuantity} />
+            </div>
+          </div>
           <div className="footer">
             <button className="btn" onClick={this.handleNext}>
               {page.button}

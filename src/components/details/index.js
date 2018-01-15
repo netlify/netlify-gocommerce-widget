@@ -1,19 +1,21 @@
 import { h, Component } from "preact";
 import Field from "../forms/field";
+import Payment from "../payment";
+
 
 export default class Details extends Component {
-  handleInput = (e) => {
-    console.log('handle', e);
+  handleInput = e => {
+    console.log("handle", e);
     this.props.onDetails(e.target.name, e.target.value);
   };
 
   render() {
-    const { details } = this.props;
+    const { details, methods, onLoadMethods, onUpdatePaymentMethod } = this.props;
 
     console.log(details);
 
     return (
-      <form>
+      <form className="addressForm">
         <Field
           label="Enter your email"
           name="email"
@@ -24,7 +26,7 @@ export default class Details extends Component {
           required
           onInput={this.handleInput}
         />
-        <hr className="hr" />
+
         <Field
           label="Name"
           name="billing_full_name"
@@ -35,6 +37,15 @@ export default class Details extends Component {
         />
 
         <Field
+          label="Company (optional)"
+          name="billing_company"
+          value={details.billing_company}
+          placeholder="Company"
+          onInput={this.handleInput}
+        />
+
+        <Field
+          className="twoColumns"
           label="Street Address"
           name="billing_address1"
           value={details.billing_address1}
@@ -52,32 +63,7 @@ export default class Details extends Component {
         />
 
         <Field
-          label="App / Suite (optional)"
-          name="billing_address2"
-          value={details.billing_address2}
-          placeholder="App / suite"
-          onInput={this.handleInput}
-        />
-
-        <Field
-          label="Country"
-          name="billing_country"
-          value={details.billing_country}
-          placeholder="Country"
-          required
-          onInput={this.handleInput}
-        />
-
-        <Field
-          label="State"
-          name="billing_state"
-          value={details.billing_state}
-          placeholder="State"
-          required
-          onInput={this.handleInput}
-        />
-
-        <Field
+          className="twoColumns"
           label="City"
           name="billing_city"
           value={details.billing_city}
@@ -96,12 +82,33 @@ export default class Details extends Component {
         />
 
         <Field
-          label="Company (optional)"
-          name="billing_company"
-          value={details.billing_company}
-          placeholder="Company"
+          className="twoColumns"
+          label="Country"
+          name="billing_country"
+          value={details.billing_country}
+          placeholder="Country"
+          required
           onInput={this.handleInput}
         />
+
+        <Field
+          label="State"
+          name="billing_state"
+          value={details.billing_state}
+          placeholder="State"
+          required
+          onInput={this.handleInput}
+        />
+
+        <hr className="hr"/>
+
+        <div className="twoColumns">
+          <Payment
+            methods={methods}
+            onLoadMethods={onLoadMethods}
+            onUpdatePaymentMethod={onUpdatePaymentMethod}
+          />
+        </div>
       </form>
     );
   }

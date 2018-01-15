@@ -1,10 +1,24 @@
 import { h, Component } from "preact";
 
 export default class Field extends Component {
-    render() {
-        const {label, name, value, required, placeholder, autocapitalize, type, iconName, onInput} = this.props;
-
-        return <div className="formGroup">
+  render() {
+    const {
+      label,
+      name,
+      value,
+      required,
+      placeholder,
+      autocapitalize,
+      type,
+      className,
+      onInput
+    } = this.props;
+    const classes = ["formGroup"];
+    if (className) {
+      classes.push(className);
+    }
+    return (
+      <div className={classes.join(" ")}>
         <label>
           <span>{label}</span>
           <input
@@ -17,8 +31,8 @@ export default class Field extends Component {
             required={required}
             onInput={onInput}
           />
-          <div className={`inputFieldIcon ${iconName}`} />
         </label>
       </div>
-    }
+    );
+  }
 }

@@ -1,24 +1,6 @@
 import { h, Component } from "preact";
+import {formatAmount, calculateTotal} from "../helpers";
 
-function formatAmount(price) {
-  if (price.currency === "USD") {
-    return `$${price.amount}`;
-  }
-  if (price.currency === "EUR") {
-    return `${price.amount}€`;
-  }
-  return `${price.amount} ${price.currency}`;
-}
-
-function calculateTotal(item) {
-  const cents = parseFloat(item.price.amount) * 100;
-  const total = cents * item.quantity;
-
-  return {
-    amount: (total / 100).toFixed(2),
-    currency: item.price.currency
-  };
-}
 
 export default class ItemRow extends Component {
   handleDecrease = e => {
@@ -49,34 +31,32 @@ export default class ItemRow extends Component {
     const { item } = this.props;
 
     return (
-      <tr>
-        <td>
-          <div className="media">
-            <div className="mediaFigure">
-              <img src={item.image} className="thumbnail"/>
-            </div>
-            <div className="mediaBody">
-              <h3>{item.title}</h3>
-              <p>{item.description}</p>
-            </div>
+      <li className="cartItem">
+        <div className="media">
+          <div className="mediaFigure">
+            <img src={item.image} className="thumbnail" />
           </div>
-        </td>
-        <td>
-          <button
-            className="btn-qty"
-            onClick={this.handleDecrease}
-            disabled={!this.canDecrease()}
-          >
-            -
-          </button>
-          {` ${item.quantity} `}
-          <button className="btn-qty" onClick={this.handleIncrease}>
-            +
-          </button>
-        </td>
-        <td>{formatAmount(item.price)}</td>
-        <td>{formatAmount(calculateTotal(item))}</td>
-      </tr>
+          <div className="mediaBody">
+            <h3 className="cartItemTitle">{item.title}</h3>
+            <p>{item.description}</p>
+            <p>
+              <button
+                className="btn-qty"
+                onClick={this.handleDecrease}
+                disabled={!this.canDecrease()}
+              >
+                -
+              </button>
+              {` ${item.quantity} `}
+              <button className="btn-qty" onClick={this.handleIncrease}>
+                +
+              </button>
+              {" X "}
+              {formatAmount(item.price)}
+            </p>
+          </div>
+        </div>
+      </li>
     );
   }
 }

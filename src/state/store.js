@@ -28,6 +28,7 @@ const store = observable({
   settings: null,
   gocommerce: null,
   cart: null,
+  orederedCart: null,
   itemCount: computed(() => {
     let count = 0;
     for (const sku in store.cart ? store.cart.items : {}) {
@@ -40,7 +41,7 @@ const store = observable({
   siteURL: null,
   saving: false,
   modal: {
-    page: "cart",
+    page: "details",
     isOpen: false,
     logo: true
   },
@@ -80,9 +81,9 @@ store.setSiteURL = action(function setSiteURL(url) {
   store.siteURL = url;
 });
 
-store.addToCart = action(function addToCart(path, sku) {
+store.addToCart = action(function addToCart(path, sku, quantity) {
   store.gocommerce
-    .addToCart({ path, sku, quantity: 1 })
+    .addToCart({ path, sku, quantity: quantity || 1 })
     .then(
       action(lineItem => {
         store.cart = store.gocommerce.getCart();
@@ -93,7 +94,7 @@ store.addToCart = action(function addToCart(path, sku) {
 
 store.checkout = action(function checkout() {
   const { details, cc, gocommerce } = store;
-  console.log('Creating order %o', details, cc);
+  console.log("Creating order %o", details, cc);
   const billing_address = {
     name: details.billing_full_name,
     address1: details.billing_address1,
@@ -123,11 +124,15 @@ store.checkout = action(function checkout() {
       return gocommerce.payment(paymentMethod).then(
         action(transaction => {
           console.log("All done - Success");
+
+          order.invoice_number = transaction.invoice_number;
+
           gocommerce.clearCart();
           store.cc = {};
+          store.orderedCart = cart;
           store.cart = gocommerce.getCart();
-          store.modal.page = "success";
           store.order = order;
+          store.modal.page = "success";
         })
       );
     })
@@ -141,7 +146,7 @@ store.updateQuantity = action(function updateQuantity(sku, path, quantity) {
     store.cart = store.gocommerce.getCart();
   } else {
     console.log("adding to cart");
-    store.addToCart({ path, quantity });
+    store.addToCart(path, sku, quantity);
   }
 });
 
@@ -151,8 +156,10 @@ store.updateDetail = action(function updateDetail(detail, value) {
 });
 
 store.openModal = action(function open() {
-  store.modal.page = "cart";
-  store.modal.isOpen = true;
+  if (!store.modal.isOpen) {
+    store.modal.page = "details";
+    store.modal.isOpen = true;
+  }
 });
 
 store.loadPaymentMethods = action(function loadPaymentMethods() {

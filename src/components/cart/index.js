@@ -1,5 +1,6 @@
 import { h, Component } from "preact";
 import ItemRow from "./itemrow";
+import {formatAmount} from "../helpers";
 
 function mergeItems(state, props) {
   console.log("merging in props", JSON.stringify(props));
@@ -38,11 +39,7 @@ export default class Cart extends Component {
 
   renderEmpty() {
     return (
-      <tbody>
-        <tr>
-          <td colspam="4">You don't have any items in your cart</td>
-        </tr>
-      </tbody>
+      <p>You don't have any items in your cart</p>
     );
   }
 
@@ -52,7 +49,7 @@ export default class Cart extends Component {
     console.log("rendering items", items);
 
     return (
-      <tbody>
+      <ul className="cartList">
         {Object.keys(items).map(sku => (
           <ItemRow
             item={items[sku]}
@@ -60,7 +57,7 @@ export default class Cart extends Component {
             onQuantity={this.props.onQuantity}
           />
         ))}
-      </tbody>
+      </ul>
     );
   }
 
@@ -70,17 +67,15 @@ export default class Cart extends Component {
     const isEmpty = Object.keys(items).length === 0;
 
     return (
-      <table className="gocommerceTable">
-        <thead>
-          <tr>
-            <th>Item</th>
-            <th>Quantity</th>
-            <th>Unit Price</th>
-            <th>Total Price</th>
-          </tr>
-        </thead>
+      <div>
         {isEmpty ? this.renderEmpty() : this.renderItems()}
-      </table>
+        <hr className="hr"/>
+        <table className="cartSummary">
+          <tr><th scope="row">Subtotal</th><td>{formatAmount(cart.subtotal)}</td></tr>
+          <tr><th scope="row">Taxes</th><td>{formatAmount(cart.taxes)}</td></tr>
+          <tr><th scope="row">Total</th><td>{formatAmount(cart.total)}</td></tr>
+        </table>
+      </div>
     );
   }
 }

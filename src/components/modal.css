@@ -1,5 +1,6 @@
 :root {
   --baseColor: rgb(14, 30, 37);
+  --lightColor: #f1f3f4;
   --subduedColor: #a3a9ac;
   --errorColor: #fa3946;
   --providerColorGoogle: #4285f4;
@@ -361,9 +362,6 @@
   border-color: var(--subduedColor);
 }
 
-.form {
-}
-
 .formGroup {
   position: relative;
   margin-top: 14px;
@@ -375,7 +373,7 @@
   width: 100%;
   height: 40px;
   margin: 0;
-  padding: 6px 12px 6px 34px;
+  padding: 6px 12px;
   border: 2px solid #e9ebeb;
   border-radius: 4px;
   background: #fff;
@@ -389,9 +387,88 @@
   -moz-appearance: none;
 }
 
+.main {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-column-gap: 60px;
+}
+
+.main .body {
+  grid-column: 1/5;
+}
+
+.main .aside {
+  grid-column: 5/7;
+}
+
+.main.success .body {
+  grid-column: 2/5;
+}
+
+.main.success .aside {
+  display: none;
+}
+
+.addressForm {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 10px;
+  margin-bottom: 48px;
+}
+
+.addressForm .twoColumns {
+  grid-column: 1 / 3;
+}
+
+.addressForm .hr {
+  grid-column: 1 / 4;
+}
+
 .StripeElement {
   padding: 6px 12px;
   border: 2px solid #e9ebeb;
+  margin: 0;
+  border-radius: 4px;
+  background: #fff;
+  color: var(--baseColor);
+  transition: box-shadow ease-in-out 0.15s;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.StripeElement--focus {
+
+}
+
+.cartList {
+  list-style: none;
+  margin: 36px 0 0;
+  padding: 0;
+}
+
+.cartItem {
+  list-style: none;
+}
+.cartItemTitle {
+  margin-top: 0;
+}
+
+.cartSummary {
+  width: 100%;
+  margin-top: 24px;
+}
+
+.cartSummary th {
+  text-align: left;
+}
+
+.cartSummary td {
+  text-align: right;
+}
+
+.cartConfirmation, .cartSuccess {
+  background: var(--lightColor);
+  padding: 12px 24px;
 }
 
 .inputFieldIcon {
