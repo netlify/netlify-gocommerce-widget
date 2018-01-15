@@ -17,7 +17,8 @@
     "test": "eslint src",
     "release": "node ./script/release.js",
     "format": "prettier --write 'src/**/*.js'",
-    "format-preview": "prettier --list-different 'src/**/*.js'"
+    "format-preview": "prettier --list-different 'src/**/*.js'",
+    "storybook": "start-storybook -p 9001 -c .storybook"
   },
   "main": "./build/netlify-gocommerce-widget",
   "keywords": [
@@ -28,6 +29,7 @@
   "license": "MIT",
   "author": "Matt Biilmann <matt@netlify.com>",
   "devDependencies": {
+    "@storybook/react": "^3.3.9",
     "babel-cli": "^6.5.2",
     "babel-core": "^6.24.0",
     "babel-eslint": "^8.1.2",
@@ -60,6 +62,7 @@
     "postcss-loader": "^2.0.3",
     "postcss-nested": "^3.0.0",
     "preact": "^8.1.0",
+    "preact-compat": "^3.17.0",
     "prettier": "^1.6.1",
     "raw-loader": "^0.5.1",
     "rimraf": "^2.6.2",
