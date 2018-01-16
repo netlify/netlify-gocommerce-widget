@@ -4,8 +4,6 @@ var postCSSNested = require("postcss-nested");
 var postCSSNext = require("postcss-cssnext");
 
 module.exports = {
-  name: "client",
-  target: "web",
   resolve: {
     extensions: [".js", "jsx"],
     alias: {

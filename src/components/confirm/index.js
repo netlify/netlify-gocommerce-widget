@@ -16,11 +16,9 @@ export default class Confirm extends Component {
                 <br/>
                 {details.billing_company && <span>{details.billing_company}<br/></span>}
                 {details.billing_address1}
-                {details.billing_address2 && <span><br/>{details.billing_address2}</span>}
+                {details.billing_address2 && <span>, {details.billing_address2}</span>}
                 <br/>
-                {details.billing_city}
-                <br/>
-                {details.billing_country}
+                {details.billing_city}, {details.billing_country}
             </p>
         </div>;
     }
