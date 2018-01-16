@@ -448,9 +448,23 @@
 
 .cartItem {
   list-style: none;
+  padding-bottom: 24px;
+  margin-bottom: 24px;
+  border-bottom: 2px solid #e9ebeb;
+}
+.cartItem:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
 }
 .cartItemTitle {
-  margin-top: 0;
+  margin: 0;
+}
+.cartItemDesc {
+  margin: 0;
+}
+.cartItemMeta {
+  margin-bottom: 0;
 }
 
 .cartSummary {

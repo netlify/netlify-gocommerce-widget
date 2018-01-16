@@ -38,8 +38,8 @@ export default class ItemRow extends Component {
           </div>
           <div className="mediaBody">
             <h3 className="cartItemTitle">{item.title}</h3>
-            <p>{item.description}</p>
-            <p>
+            <p className="cartItemDesc">{item.description}</p>
+            <p className="cartItemMeta">
               <button
                 className="btn-qty"
                 onClick={this.handleDecrease}
