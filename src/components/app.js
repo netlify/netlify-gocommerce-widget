@@ -162,10 +162,10 @@ class App extends Component {
             </div>
           )}
           <div className={`main ${store.modal.page}`}>
-            <div className="body">{this.renderBody()}</div>
             <div className="aside">
               <Cart cart={store.cart} onQuantity={this.handleQuantity} />
             </div>
+            <div className="body">{this.renderBody()}</div>
           </div>
           <div className="footer">
             <button className="btn" onClick={this.handleNext}>

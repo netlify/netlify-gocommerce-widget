@@ -387,22 +387,34 @@
   -moz-appearance: none;
 }
 
-.main {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-  grid-column-gap: 60px;
+@media (min-width: 964px) {
+  .main {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-column-gap: 60px;
+  }
+
+  .main .body {
+    order: 1;
+    grid-column: 1/5;
+  }
+
+  .main .aside {
+    order: 2;
+    grid-column: 5/7;
+  }
+
+  .main.success .body {
+    grid-column: 2/6;
+  }
 }
 
-.main .body {
-  grid-column: 1/5;
-}
-
-.main .aside {
-  grid-column: 5/7;
-}
-
-.main.success .body {
-  grid-column: 2/6;
+@media (max-width: 963px) {
+  .main .aside {
+    border-bottom: 2px solid #e9ebeb;
+    padding-bottom: 24px;
+    margin-bottom: 24px;
+  }
 }
 
 .main.success .aside {
@@ -411,7 +423,7 @@
 
 .addressForm {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
   grid-gap: 10px;
   margin-bottom: 48px;
 }

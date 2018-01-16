@@ -42,9 +42,9 @@ storiesOf("Success", module)
     .add("Sucessful checkout", () => {
         // TODO: ugly boilerplate should go into a component
         return <div className="main success">
+        <div className="aside"></div>
         <div className="body">{
             <Success cart={cart} details={details} order={order} />
         }</div>
-        <div className="aside"></div>
       </div>
     })

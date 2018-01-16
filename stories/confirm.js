@@ -54,11 +54,11 @@ storiesOf("Confirmation", module)
     .add("Confirm checkout", () => {
         // TODO: ugly boilerplate should go into a component
         return <div className="main confirm">
-        <div className="body">{
-            <Confirm cart={cart} details={details} order={order} />
-        }</div>
         <div className="aside">
             <Cart cart={cart}/>
         </div>
+        <div className="body">{
+            <Confirm cart={cart} details={details} order={order} />
+        }</div>
       </div>
     })

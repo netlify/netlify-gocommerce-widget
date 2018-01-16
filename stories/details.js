@@ -60,11 +60,11 @@ storiesOf("Details", module)
     .add("Input details", () => {
         // TODO: ugly boilerplate should go into a component
         return <div className="main details">
-        <div className="body">{
-            <Details details={details} onLoadMethods={onLoadMethods} />
-        }</div>
         <div className="aside">
             <Cart cart={cart}/>
         </div>
+        <div className="body">{
+            <Details details={details} onLoadMethods={onLoadMethods} />
+        }</div>
       </div>
     })
