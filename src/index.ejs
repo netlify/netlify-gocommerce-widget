@@ -261,6 +261,18 @@
 		}
 	</script>
 
+	<script type="application/json" class="gocommerce-product">
+		{
+			"sku": "test-2",
+			"title": "Another Test Product",
+			"description": "This is another test product",
+			"image": "https://cloud.netlifyusercontent.com/assets/344dbf88-fdf9-42bb-adb4-46f01eedd629/9bab679b-21df-43b0-885e-e5ce5edb2402/a11y-3-ebooks-bundle-cover-opt-large.png",
+			"type": "Test",
+			"prices": [{"amount": "14.00", "currency": "USD"}],
+			"vat": 7
+		}
+	</script>
+
 	<div class="main">
 		<div class="header">
 			<h2><a href="https://www.netlify.com">Netlify Gocommerce</a></h2>
@@ -270,9 +282,16 @@
 
 		<div class="hands-on-area">
 			<div class="single-button">
-				<span class="label">Add to Cart</span>
+				<span class="label">Add Test 1 to Cart</span>
 				<div>
-					<a href="#" data-gocommerce-add="/">Add to Cart</a>
+					<a href="#" data-gocommerce-add="/" data-gocommerce-sku="test-1">Add to Cart</a>
+				</div>
+			</div>
+
+			<div class="single-button">
+				<span class="label">Add Test 2 to Cart</span>
+				<div>
+					<a href="#" data-gocommerce-add="/" data-gocommerce-sku="test-2">Add to Cart</a>
 				</div>
 			</div>
 

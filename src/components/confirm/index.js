@@ -13,8 +13,8 @@ export default class Confirm extends Component {
             <h3>Billing address:</h3>
             <p>
                 {details.billing_full_name}
+                {details.billing_company && <span>, {details.billing_company}</span>}
                 <br/>
-                {details.billing_company && <span>{details.billing_company}<br/></span>}
                 {details.billing_address1}
                 {details.billing_address2 && <span>, {details.billing_address2}</span>}
                 <br/>
