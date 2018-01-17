@@ -7,6 +7,7 @@ export default class Field extends Component {
       name,
       value,
       required,
+      disabled,
       placeholder,
       autocapitalize,
       type,
@@ -16,6 +17,9 @@ export default class Field extends Component {
     const classes = ["formGroup"];
     if (className) {
       classes.push(className);
+    }
+    if (disabled) {
+      classes.push("disabled");
     }
     return (
       <div className={classes.join(" ")}>
@@ -29,6 +33,7 @@ export default class Field extends Component {
             placeholder={placeholder}
             autocapitalize={autocapitalize}
             required={required}
+            readonly={disabled}
             onInput={onInput}
           />
         </label>

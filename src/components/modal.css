@@ -567,6 +567,25 @@
   width: 100%;
 }
 
+.field--suggestions {
+  box-sizing: border-box;
+  width: 100%;
+  position: absolute;
+  list-style: none;
+  background: #fff;
+  box-shadow: 1px 1px 14px rgba(0,0,0,0.3);
+  margin: 0;
+  padding: 0;
+}
+
+.field--suggestion {
+  padding: 6px 12px;
+}
+
+.field--suggestion__selected {
+  background: #a8d1ff;
+}
+
 .callOut {
   display: block;
   padding: var(--basePadding);

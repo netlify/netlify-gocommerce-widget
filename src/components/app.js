@@ -34,7 +34,6 @@ const pages = {
     isActive: store =>
       store.itemCount > 0 && store.details.validated && store.cc.validated,
     handler: store => {
-      console.log("Checkout!");
       store.checkout();
     }
   },
@@ -82,11 +81,9 @@ class App extends Component {
     e.preventDefault();
 
     this.props.store.setPage(e.target.dataset.slug);
-    console.log(e.target, e.target.slug);
   };
 
   handleUpdatePaymentMethod = (state, tokenFn) => {
-    console.log("updating payment method", state);
     this.setState(
       { tokenFn },
       () => (this.props.store.paymentMethods.complete = state)
@@ -129,9 +126,6 @@ class App extends Component {
   render() {
     const { store } = this.props;
     const page = pages[store.modal.page];
-    console.log("modal", store.modal);
-
-    console.log("rendering", store.modal.page, pages[store.modal.page]);
 
     return (
       <div>

@@ -12,7 +12,6 @@ function validateDetails(details) {
 }
 
 function loadStripeLib() {
-  console.log("loading stripe lib");
   return new Promise((resolve, reject) => {
     const el = document.createElement("script");
     el.onload = () => resolve(true);
@@ -63,7 +62,6 @@ store.startAction = action(function startAction() {
 });
 
 store.setError = action(function setError(err) {
-  console.error(err);
   store.saving = false;
   store.error = err;
 });
@@ -94,7 +92,6 @@ store.addToCart = action(function addToCart(path, sku, quantity) {
 
 store.checkout = action(function checkout() {
   const { details, cc, gocommerce } = store;
-  console.log("Creating order %o", details, cc);
   const billing_address = {
     name: details.billing_full_name,
     address1: details.billing_address1,
@@ -120,11 +117,8 @@ store.checkout = action(function checkout() {
       if (cc.provider === "stripe") {
         paymentMethod.stripe_token = cc.result.token.id;
       }
-      console.log("Creating payment", cart, order, paymentMethod);
       return gocommerce.payment(paymentMethod).then(
         action(transaction => {
-          console.log("All done - Success");
-
           order.invoice_number = transaction.invoice_number;
 
           gocommerce.clearCart();
@@ -141,18 +135,17 @@ store.checkout = action(function checkout() {
 
 store.updateQuantity = action(function updateQuantity(sku, path, quantity) {
   if (store.cart.items[sku]) {
-    console.log("updating quantity");
     store.gocommerce.updateCart(sku, quantity);
     store.cart = store.gocommerce.getCart();
   } else {
-    console.log("adding to cart");
     store.addToCart(path, sku, quantity);
   }
 });
 
 store.updateDetail = action(function updateDetail(detail, value) {
-  store.details[detail] = value;
-  store.details.validated = validateDetails(store.details);
+  const details = {...store.details, [detail]: value};
+  details.validated = validateDetails(details);
+  store.details = details;
 });
 
 store.openModal = action(function open() {
@@ -174,14 +167,12 @@ store.loadPaymentMethods = action(function loadPaymentMethods() {
           stripe: {},
           paypal: {}
         };
-        console.log("loading payment methods", store.paymentMethods);
         if (
           store.paymentMethods.stripe &&
           store.paymentMethods.stripe.enabled
         ) {
           loadStripeLib().then(
             action(() => {
-              console.log("setting stripe to loaded");
               const methods = { ...store.paymentMethods };
               methods.stripe = { ...methods.stripe, loaded: true };
               store.paymentMethods = methods;

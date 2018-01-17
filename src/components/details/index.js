@@ -1,18 +1,19 @@
 import { h, Component } from "preact";
 import Field from "../forms/field";
+import SuggestionsField from "../forms/suggesions-field";
 import Payment from "../payment";
+import countries from '../forms/countries.json';
+import states from '../forms/states.json';
 
 
 export default class Details extends Component {
   handleInput = e => {
-    console.log("handle", e);
     this.props.onDetails(e.target.name, e.target.value);
   };
 
   render() {
     const { details, methods, onLoadMethods, onUpdatePaymentMethod } = this.props;
-
-    console.log(details);
+    const statesForCountry = states[details.billing_country];
 
     return (
       <form className="addressForm">
@@ -81,20 +82,23 @@ export default class Details extends Component {
           onInput={this.handleInput}
         />
 
-        <Field
+        <SuggestionsField
           className="twoColumns"
           label="Country"
           name="billing_country"
           value={details.billing_country}
+          options={countries}
           placeholder="Country"
           required
           onInput={this.handleInput}
         />
 
-        <Field
+        <SuggestionsField
           label="State"
           name="billing_state"
           value={details.billing_state}
+          options={statesForCountry ? statesForCountry.states : []}
+          disabled={!statesForCountry}
           placeholder="State"
           required
           onInput={this.handleInput}
