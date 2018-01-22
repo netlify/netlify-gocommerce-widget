@@ -181,10 +181,12 @@ function init(options = {}) {
       root
     );
     window.gocommerceFrame = iframe;
+    //iframe.contentWindow.location.host = document.location.host
     runRoutes();
   };
   setStyle(iframe, iframeStyle);
-  iframe.src = "about:blank";
+  iframe.src = "javascript:";
+
   const container = options.container
     ? document.querySelector(options.container)
     : document.body;

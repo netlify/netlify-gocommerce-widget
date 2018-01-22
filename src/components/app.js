@@ -101,6 +101,7 @@ class App extends Component {
       case "details":
         return (
           <Details
+            cart={store.cart}
             details={store.details}
             onDetails={this.handleDetails}
             methods={store.paymentMethods}

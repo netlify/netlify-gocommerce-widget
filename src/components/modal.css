@@ -436,6 +436,18 @@
   grid-column: 1 / 4;
 }
 
+.paymentMethods {
+  grid-column: 1 / 4;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-gap: 10px;
+}
+
+.paymentMethods .paypal-button {
+  text-align: center;
+  margin-top: 38px;
+}
+
 .StripeElement {
   padding: 6px 12px;
   border: 2px solid #e9ebeb;

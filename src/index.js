@@ -8,5 +8,5 @@ if (typeof window !== undefined) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  netlifyGocommerce.init();
+  netlifyGocommerce.init(window.GocommerceAPI || null);
 });

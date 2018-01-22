@@ -21,6 +21,17 @@ function loadStripeLib() {
   });
 }
 
+function loadPaypalLib() {
+  return new Promise((resolve, reject) => {
+    const el = document.createElement("script");
+    el.onload = () => resolve(true);
+    el.setAttribute("data-version-4", true);
+    el.src = "https://www.paypalobjects.com/api/checkout.js";
+
+    document.head.appendChild(el);
+  });
+}
+
 const store = observable({
   recovered_user: null,
   message: null,
@@ -175,6 +186,18 @@ store.loadPaymentMethods = action(function loadPaymentMethods() {
             action(() => {
               const methods = { ...store.paymentMethods };
               methods.stripe = { ...methods.stripe, loaded: true };
+              store.paymentMethods = methods;
+            })
+          );
+        }
+        if (
+          store.paymentMethods.paypal &&
+          store.paymentMethods.paypal.enabled
+        ) {
+          loadPaypalLib().then(
+            action(() => {
+              const methods = { ...store.paymentMethods };
+              methods.paypal = { ...methods.paypal, url: store.gocommerce.api.apiURL + "/paypal", loaded: true };
               store.paymentMethods = methods;
             })
           );

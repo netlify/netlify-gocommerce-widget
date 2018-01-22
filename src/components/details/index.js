@@ -2,9 +2,8 @@ import { h, Component } from "preact";
 import Field from "../forms/field";
 import SuggestionsField from "../forms/suggesions-field";
 import Payment from "../payment";
-import countries from '../forms/countries.json';
-import states from '../forms/states.json';
-
+import countries from "../forms/countries.json";
+import states from "../forms/states.json";
 
 export default class Details extends Component {
   handleInput = e => {
@@ -12,7 +11,13 @@ export default class Details extends Component {
   };
 
   render() {
-    const { details, methods, onLoadMethods, onUpdatePaymentMethod } = this.props;
+    const {
+      cart,
+      details,
+      methods,
+      onLoadMethods,
+      onUpdatePaymentMethod
+    } = this.props;
     const statesForCountry = states[details.billing_country];
 
     return (
@@ -96,7 +101,7 @@ export default class Details extends Component {
         <SuggestionsField
           label="State"
           name="billing_state"
-          value={details.billing_state}
+          value={statesForCountry ? details.billing_state : ""}
           options={statesForCountry ? statesForCountry.states : []}
           disabled={!statesForCountry}
           placeholder="State"
@@ -104,15 +109,14 @@ export default class Details extends Component {
           onInput={this.handleInput}
         />
 
-        <hr className="hr"/>
+        <hr className="hr" />
 
-        <div className="twoColumns">
-          <Payment
-            methods={methods}
-            onLoadMethods={onLoadMethods}
-            onUpdatePaymentMethod={onUpdatePaymentMethod}
-          />
-        </div>
+        <Payment
+          methods={methods}
+          cart={cart}
+          onLoadMethods={onLoadMethods}
+          onUpdatePaymentMethod={onUpdatePaymentMethod}
+        />
       </form>
     );
   }

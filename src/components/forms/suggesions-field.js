@@ -174,7 +174,7 @@ export default class SuggestionsField extends Component {
       errorMessage,
       onValidate
     } = this.props;
-    const { value, suggestions, autoComplete, selected } = this.state;
+    const { value, suggestions, autoComplete, selected, disabled } = this.state;
     const id = label.replace(/[^\w0-9_-]/g, "");
 
     const classes = ["formGroup"];
@@ -199,6 +199,7 @@ export default class SuggestionsField extends Component {
             autoCapitalize={false}
             autoCorrect={false}
             spellCheck={false}
+            readonly={disabled}
           />
         </label>
         {this.props.options.length > 0 && (

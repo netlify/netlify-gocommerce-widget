@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<script>window.GocommerceAPI = "https://withnodburl.herokuapp.com";</script>
 	<% for (var chunk in htmlWebpackPlugin.files.css) { %>
 		<link rel="stylesheet" href="<%= htmlWebpackPlugin.files.css[chunk] %>">
 	<% } %>
