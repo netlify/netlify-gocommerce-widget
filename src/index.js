@@ -8,5 +8,5 @@ if (typeof window !== undefined) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  netlifyGocommerce.init(window.GocommerceAPI || null);
+  netlifyGocommerce.init({APIUrl: window.GocommerceAPI || null});
 });
